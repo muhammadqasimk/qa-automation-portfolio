@@ -1,0 +1,39 @@
+# Rest Assured / Maven
+target/
+*.jar
+*.class
+.classpath
+.project
+.settings/
+*.log
+
+# Node / React / Playwright
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+yarn.lock
+
+# Playwright
+test-results/
+playwright-report/
+.auth/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Reports
+allure-results/
+allure-report/
+mochawesome-report/
