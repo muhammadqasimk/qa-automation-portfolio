@@ -1,0 +1,23 @@
+{
+  "name": "playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright UI, E2E and API tests for Conduit, Saleor and Restful-Booker",
+  "scripts": {
+    "test": "playwright test",
+    "test:conduit": "playwright test tests/conduit",
+    "test:saleor": "playwright test tests/saleor",
+    "test:api": "playwright test tests/api",
+    "test:medusa": "playwright test tests/medusa",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.6",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.19.0"
+  }
+}
