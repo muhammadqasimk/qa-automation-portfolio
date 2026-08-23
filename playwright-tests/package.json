@@ -2,6 +2,9 @@
   "name": "playwright-tests",
   "version": "1.0.0",
   "description": "Playwright UI, E2E and API tests for Conduit, Saleor and Restful-Booker",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "test": "playwright test",
     "test:conduit": "playwright test tests/conduit",
