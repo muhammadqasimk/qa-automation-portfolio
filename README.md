@@ -42,7 +42,7 @@ End-to-end quality engineering portfolio covering **API automation (Rest Assured
 
 ## Prerequisites
 
-- **Java 17+** and **Maven** (for the Rest Assured suite)
+- **Java 21** (LTS) and **Maven** (for the Rest Assured suite)
 - **Node.js 18+** (for the Playwright suite)
 
 ## Running the API tests (Rest Assured)
@@ -104,7 +104,7 @@ MEDUSA_URL=http://localhost:8000 npm run test:medusa   # enables the opt-in Medu
 ## CI/CD
 
 `.github/workflows/test.yml` runs on every push/PR (and weekly):
-1. **Rest Assured** job - JDK 17 + Maven, runs the Java API suite, uploads surefire reports.
+1. **Rest Assured** job - JDK 21 + Maven, runs the Java API suite, uploads surefire reports.
 2. **Playwright** job - Node 18 + Chromium, runs the full suite, uploads the HTML report and results as artifacts.
 
 ## Notes on public demos

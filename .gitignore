@@ -37,3 +37,6 @@ playwright-report/
 allure-results/
 allure-report/
 mochawesome-report/
+
+# Internal modernization tooling artifacts
+**/.github/modernize/
