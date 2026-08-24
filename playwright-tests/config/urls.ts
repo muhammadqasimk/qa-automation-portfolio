@@ -6,7 +6,5 @@
 export const URLS = {
   conduit: process.env.CONDUIT_URL ?? 'https://demo.realworld.show',
   saleor: process.env.SALEOR_URL ?? 'https://demo.saleor.io',
-  // No stable public Medusa demo - set MEDUSA_URL to enable the Medusa suite.
-  medusa: process.env.MEDUSA_URL ?? '',
   restfulBooker: process.env.BOOKER_URL ?? 'https://restful-booker.herokuapp.com',
 };

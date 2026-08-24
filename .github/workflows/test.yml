@@ -9,10 +9,19 @@ on:
   schedule:
     - cron: '0 8 * * MON'
 
+permissions:
+  contents: read
+
+# Two rapid pushes would otherwise race two Pages deployments.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   rest-assured-tests:
     name: Rest Assured API Tests (Restful-Booker)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,6 +48,7 @@ jobs:
   playwright-tests:
     name: Playwright UI + E2E + API
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,9 +66,9 @@ jobs:
 
       - name: Install Playwright browsers
         working-directory: ./playwright-tests
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
-      - name: Run Playwright suite
+      - name: Run Playwright suite (Chromium, Firefox, WebKit)
         working-directory: ./playwright-tests
         run: npm test
 
@@ -77,3 +87,39 @@ jobs:
           name: playwright-test-results
           path: playwright-tests/test-results/
           retention-days: 30
+
+  publish-report:
+    name: Publish Playwright report to GitHub Pages
+    needs: playwright-tests
+    # Runs even when tests fail (a failing report is the one worth reading),
+    # but not on cancellation - the artifact wouldn't exist.
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Elevated permissions are scoped to this job only; the test jobs above
+    # never carry Pages or OIDC credentials they don't need.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download Playwright report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: ./report
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

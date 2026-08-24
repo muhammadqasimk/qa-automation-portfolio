@@ -7,10 +7,12 @@
   },
   "scripts": {
     "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
     "test:conduit": "playwright test tests/conduit",
     "test:saleor": "playwright test tests/saleor",
-    "test:api": "playwright test tests/api",
-    "test:medusa": "playwright test tests/medusa",
+    "test:api": "playwright test --project=api",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "report": "playwright show-report"
@@ -19,8 +21,5 @@
     "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.6",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "axios": "^1.19.0"
   }
 }

@@ -75,11 +75,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <includes>
-                        <include>**/*ApiTest.java</include>
-                    </includes>
-                </configuration>
+                <!--
+                  Deliberately no <includes>: overriding it replaces Surefire's
+                  defaults (**/*Test.java, **/Test*.java, **/*Tests.java,
+                  **/*TestCase.java), which would silently skip any future test
+                  class that doesn't match the custom pattern while the build
+                  still reports success.
+                -->
             </plugin>
         </plugins>
     </build>

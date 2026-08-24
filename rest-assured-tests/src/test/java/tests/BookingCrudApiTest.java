@@ -81,9 +81,10 @@ class BookingCrudApiTest extends BaseApiTest {
     void deleteBooking_withToken_removesBooking() {
         int id = client.createBooking(sampleBooking()).jsonPath().getInt("bookingid");
 
-        int deleteStatus = client.deleteBooking(id, token).statusCode();
-        assertTrue(deleteStatus == 201 || deleteStatus == 204,
-                "Expected 201 or 204 on delete but got " + deleteStatus);
+        // Restful-Booker returns 201 on DELETE rather than the RESTful 204.
+        // Asserted strictly (not "201 or 204") so the quirk stays pinned -
+        // see BookingKnownIssuesApiTest and the defect table in the README.
+        assertEquals(201, client.deleteBooking(id, token).statusCode());
 
         assertEquals(404, client.getBooking(id).statusCode());
     }

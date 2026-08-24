@@ -8,7 +8,7 @@ test.describe('Saleor - Product browsing (UI)', () => {
     await list.open();
 
     await list.expectHasProducts();
-    expect(await list.count()).toBeGreaterThan(0);
+    await expect(list.productLinks).not.toHaveCount(0);
   });
 
   test('product detail page shows a title and purchase action', async ({ page }) => {
@@ -22,12 +22,27 @@ test.describe('Saleor - Product browsing (UI)', () => {
     await detail.expectPurchaseCta();
   });
 
-  test('search returns product results', async ({ page }) => {
+  test('search navigates to a results page and returns matching products', async ({ page }) => {
     const list = new ProductListPage(page);
     await list.open();
 
     await list.search('shirt');
 
-    await expect(page.locator('a[href*="/products/"]').first()).toBeVisible();
+    // /products already renders product links, so asserting "a link is visible"
+    // would pass even if search did nothing. Assert the search actually ran
+    // (query in the URL) and that a returned product matches the term.
+    await expect(page).toHaveURL(/[?&]q(uery)?=shirt/i);
+    await expect(list.productLinks.first()).toBeVisible();
+    await expect(list.productLinks.filter({ hasText: /shirt/i })).not.toHaveCount(0);
+  });
+
+  test('search for a nonsense term returns no products', async ({ page }) => {
+    const list = new ProductListPage(page);
+    await list.open();
+
+    await list.search(`zzz-no-such-product-${Date.now()}`);
+
+    await expect(page).toHaveURL(/[?&]q(uery)?=zzz-no-such-product/i);
+    await expect(list.productLinks).toHaveCount(0);
   });
 });

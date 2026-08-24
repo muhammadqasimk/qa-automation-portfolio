@@ -11,9 +11,14 @@ test.describe('Saleor - Add to cart (E2E)', () => {
     await detail.openBySlug('dark-polygon-tee');
     await detail.expectLoaded();
 
+    // Cart starts empty, so the assertion below can only pass because of this step.
+    await expect(detail.cartButton).toHaveAccessibleName(/0 items? in cart/i);
+
     await detail.addToCart();
 
-    // The cart indicator should reflect at least one item after adding.
-    await expect(page.getByText(/[1-9]\d* item/i).first()).toBeVisible();
+    // Adding to the cart fires a GraphQL mutation before the header updates, so
+    // this is given a longer budget than the default expect timeout - WebKit is
+    // consistently the slowest of the three engines to reflect it.
+    await expect(detail.cartButtonWithItems).toBeVisible({ timeout: 25000 });
   });
 });

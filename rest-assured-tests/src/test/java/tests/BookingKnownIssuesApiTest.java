@@ -48,17 +48,15 @@ class BookingKnownIssuesApiTest extends BaseApiTest {
 
         assertEquals(403, status,
                 "Missing auth returns 403 here; a stricter API would return 401");
-        assertNotEquals(401, status);
     }
 
     @Test
-    @DisplayName("Creating with missing required fields is not rejected with 400")
+        @DisplayName("Creating with missing required fields is not handled as a clean 400 validation error")
     void createWithMissingFields_isNotValidated() {
         // Only firstname supplied - required fields (dates, price) omitted.
-        int status = client.createBookingRaw("{\"firstname\":\"Incomplete\"}").statusCode();
+        var response = client.createBookingRaw("{\"firstname\":\"Incomplete\"}");
 
-        // The API does not perform request validation, so it never returns 400 Bad Request.
-        assertNotEquals(400, status,
-                "No field validation: the API does not reject an incomplete payload with 400");
+        assertNotEquals(400, response.statusCode(),
+            "The defect is that invalid input is not reported as a client validation error");
     }
 }
