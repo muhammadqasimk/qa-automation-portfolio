@@ -61,7 +61,7 @@ surfaces as a failure.
 ## Prerequisites
 
 - **Java 21** and **Maven** (for the Rest Assured suite)
-- **Node.js 20+** (for the Playwright suite)
+- **Node.js 24+** (for the Playwright suite)
 
 ## Running the API tests (Rest Assured)
 
@@ -131,7 +131,7 @@ CONDUIT_URL=https://my-conduit SALEOR_URL=https://my-saleor npm test
 `.github/workflows/test.yml` runs on every push and pull request to `main`/`develop`, weekly on a schedule, and on demand:
 
 1. **Rest Assured job** — JDK 21 + Maven, runs the Java API suite, uploads surefire reports.
-2. **Playwright job** — Node 20, installs Chromium/Firefox/WebKit, runs the full suite, uploads the HTML report and raw results as artifacts.
+2. **Playwright job** — Node 24, installs Chromium/Firefox/WebKit, runs the full suite, uploads the HTML report and raw results as artifacts.
 3. **Publish job** — deploys the Playwright HTML report to GitHub Pages so results are viewable without downloading artifacts.
 
 ## Notes on public demos

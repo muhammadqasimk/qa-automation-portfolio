@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Playwright UI, E2E and API tests for Conduit, Saleor and Restful-Booker",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
     "test": "playwright test",
