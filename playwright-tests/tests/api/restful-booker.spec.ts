@@ -3,7 +3,7 @@ import { URLS } from '../../config/urls';
 
 /**
  * API-layer tests for Restful-Booker using Playwright's request client.
- * This complements the Java/Rest Assured suite and proves API coverage in TypeScript too.
+ * This complements the Java/Rest Assured suite and proves API coverage in TypeScript too. 
  */
 const BASE = URLS.restfulBooker;
 
